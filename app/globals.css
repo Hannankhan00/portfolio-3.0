@@ -36,6 +36,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #000000; /* deepest fallback */
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -43,6 +45,7 @@ body {
   color: var(--color-text-main);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  max-width: 100%;
   position: relative;
   line-height: 1.6;
 }
@@ -256,15 +259,6 @@ body > div:first-child {
   flex-shrink: 0;
 }
 
-.nav-logo::before {
-  content: '';
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.6);
-  flex-shrink: 0;
-}
 
 .nav-links {
   display: flex;
@@ -355,7 +349,7 @@ body > div:first-child {
 
 .hero-name {
   font-family: var(--font-heading);
-  font-size: clamp(3.5rem, 9vw, 6rem);
+  font-size: clamp(2.5rem, 9vw, 6rem);
   font-weight: 700;
   color: var(--color-text-main);
   line-height: 1.0;
@@ -365,7 +359,7 @@ body > div:first-child {
 }
 
 .hero-subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-size: clamp(0.95rem, 2.5vw, 1.2rem);
   color: var(--color-text-muted);
   font-weight: 300;
   max-width: 520px;
@@ -519,11 +513,14 @@ body > div:first-child {
 /* Responsive: stack vertically on smaller screens */
 @media (max-width: 900px) {
   .about-container {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 3rem;
+    align-items: center; /* Centers children horizontally */
   }
   .about-text {
     max-width: 100%;
+    width: 100%;
   }
   .about-card {
     width: 260px;
@@ -534,9 +531,10 @@ body > div:first-child {
 @media (max-width: 480px) {
   .about-stats {
     gap: 1.5rem;
+    flex-wrap: wrap;
   }
   .about-card {
-    width: 220px;
+    width: 240px;
   }
 }
 
@@ -545,7 +543,6 @@ body > div:first-child {
   background-color: rgba(0, 0, 0, 0.35);
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  /* removed backdrop-filter — expensive on large sections */
 }
 
 .skills-grid {
@@ -576,10 +573,16 @@ body > div:first-child {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
+@media (max-width: 480px) {
+  .skill-tag {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.85rem;
+  }
+}
+
 /* --- PROJECTS SECTION --- */
 .projects-section {
   background-color: rgba(0, 0, 0, 0.3);
-  /* removed backdrop-filter — expensive on large sections */
 }
 
 .projects-grid {
@@ -691,7 +694,6 @@ body > div:first-child {
   background-color: rgba(0, 0, 0, 0.35);
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  /* removed backdrop-filter — expensive on large sections */
 }
 
 .connect-text {
@@ -764,13 +766,13 @@ body > div:first-child {
 .footer {
   background-color: rgba(0, 0, 0, 0.5);
   border-top: 1px solid rgba(255, 255, 255, 0.07);
-  /* removed backdrop-filter — expensive on footer compositing */
 }
 
 .footer-content {
   padding: 4rem 2rem;
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 .copyright {
@@ -781,16 +783,55 @@ body > div:first-child {
 
 /* --- RESPONSIVE ADJUSTMENTS --- */
 @media (max-width: 767px) {
-  /* On small screens, hide the text nav links when expanded to save space */
-  .morph-nav--visible .nav-links {
-    display: none;
+  /* Make the header expand vertically on mobile so links fit */
+  .header-morph--open {
+    height: auto;
+    min-height: 280px;
+    border-radius: 26px;
+    align-items: flex-start;
   }
+  
+  .morph-nav {
+    flex-direction: column;
+    left: 0;
+    top: 52px;
+    height: calc(100% - 52px);
+    width: 100%;
+    padding: 0 1rem 1.5rem 1rem;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-logo {
+    position: absolute;
+    top: -42px;
+    left: 60px; /* Aligned right next to the hamburger button */
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  
+  .nav-links a {
+    font-size: 1.1rem;
+  }
+
   .section-container {
     padding: 4.5rem 1.5rem;
   }
+  
   .project-card {
-    padding: 2rem;
-    min-height: 320px;
+    padding: 1.5rem;
+    min-height: 280px;
+  }
+  
+  .hero-actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 }
 

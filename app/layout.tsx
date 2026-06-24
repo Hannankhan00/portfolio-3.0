@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   title: "Khadija Mansoor | Web Developer",
   description: "Personal portfolio of Khadija Mansoor, a Full Stack Developer building fast, scalable, and beautifully crafted digital products.",
   icons: {
-    icon: "/assets/icon.png",
+    icon: "/assets/icon-square.png",
   },
 };
 

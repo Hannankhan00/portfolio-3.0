@@ -35,6 +35,7 @@
   transform: translate3d(0, 0, 0.1px);
   position: relative;
   touch-action: none;
+  width: 100%;
 }
 
 .pc-behind {
@@ -58,7 +59,9 @@
 }
 
 .pc-card {
-  height: 80svh;
+  width: 100%;
+  height: auto;
+  max-width: 380px;
   max-height: 540px;
   display: grid;
   aspect-ratio: 0.718;
@@ -258,7 +261,7 @@
   transform: translateX(calc(-50% + (var(--pointer-from-left) - 0.5) * 6px)) translateZ(0)
     scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.02))
     scaleX(calc(1 + (var(--pointer-from-left) - 0.5) * 0.01));
-  bottom: -1px;
+  bottom: -60px; /* Moved down to prevent face overlap */
   backface-visibility: hidden;
   will-change: transform;
   transition: transform 120ms ease-out;
@@ -372,7 +375,7 @@
 .pc-details {
   width: 100%;
   position: absolute;
-  top: 3em;
+  top: 1.5em;
   display: flex;
   flex-direction: column;
 }
@@ -380,10 +383,9 @@
 .pc-details h3 {
   font-weight: 600;
   margin: 0;
-  line-height: 1.1;
-  font-size: min(5svh, 3em);
+  line-height: 0.9;
+  font-size: min(4.5svh, 2.5em);
   background-image: linear-gradient(to bottom, #fff, #c084fc);
-  background-size: 1em 1.5em;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
@@ -392,13 +394,12 @@
 .pc-details p {
   font-weight: 600;
   position: relative;
-  top: -12px;
+  top: 4px;
   white-space: nowrap;
   font-size: 16px;
   margin: 0 auto;
   width: min-content;
   background-image: linear-gradient(to bottom, #fff, #a855f7);
-  background-size: 1em 1.5em;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
@@ -415,7 +416,7 @@
 }
 
 @media (max-width: 768px) {
-  .pc-card { height: 70svh; max-height: 450px; }
+  .pc-card { max-height: 450px; }
   .pc-details { top: 2em; }
   .pc-details h3 { font-size: min(4svh, 2.5em); }
   .pc-details p { font-size: 14px; }
