@@ -8,6 +8,65 @@ import Header from './components/Header';
 import ClickSpark from './components/ClickSpark';
 import ProfileCard from './components/ProfileCard';
 
+const skillsData = [
+  {
+    category: "Frontend",
+    items: [
+      { name: "JavaScript", icon: "https://cdn.simpleicons.org/javascript/F7DF1E", color: "#F7DF1E" },
+      { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6", color: "#3178C6" },
+      { name: "React", icon: "https://cdn.simpleicons.org/react/61DAFB", color: "#61DAFB" },
+      { name: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs/white", color: "#ffffff" },
+      { name: "Tailwind CSS", icon: "https://cdn.simpleicons.org/tailwindcss/06B6D4", color: "#06B6D4" },
+      { name: "Sass", icon: "https://cdn.simpleicons.org/sass/CC6699", color: "#CC6699" },
+      { name: "Bootstrap", icon: "https://cdn.simpleicons.org/bootstrap/7952B3", color: "#7952B3" },
+      { name: "GSAP", icon: "https://cdn.simpleicons.org/greensock/88CE02", color: "#88CE02" },
+      { name: "Framer Motion", icon: "https://cdn.simpleicons.org/framer/white", color: "#ffffff" },
+    ]
+  },
+  {
+    category: "Backend",
+    items: [
+      { name: "Node.js", icon: "https://cdn.simpleicons.org/nodedotjs/5FA04E", color: "#5FA04E" },
+      { name: "Express.js", icon: "https://cdn.simpleicons.org/express/white", color: "#ffffff" },
+    ]
+  },
+  {
+    category: "Database",
+    items: [
+      { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql/4479A1", color: "#4479A1" },
+      { name: "PostgreSQL", icon: "https://cdn.simpleicons.org/postgresql/4169E1", color: "#4169E1" },
+      { name: "MongoDB", icon: "https://cdn.simpleicons.org/mongodb/47A248", color: "#47A248" },
+    ]
+  }
+];
+
+const projectsData = [
+  {
+    title: "Portfolio Website",
+    description: "A highly interactive personal portfolio built with Next.js, featuring smooth GSAP animations, WebGL background effects, and a custom glassmorphism design system.",
+    stack: ["Next.js", "React", "GSAP", "Tailwind CSS"],
+    image: "https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=1200&auto=format&fit=crop",
+    link: "#",
+    reversed: false
+  },
+  {
+    title: "E-Commerce Platform",
+    description: "A modern, high-performance shopping frontend. Features dynamic cart management, advanced product filtering, and a seamless checkout experience with Framer Motion transitions.",
+    stack: ["TypeScript", "React", "Node.js", "MongoDB"],
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
+    link: "#",
+    reversed: true
+  },
+  {
+    title: "SaaS Dashboard UI",
+    description: "An elegant dark-themed analytics dashboard designed for SaaS products. Includes real-time data visualization, custom interactive charts, and secure user authentication.",
+    stack: ["Next.js", "Tailwind CSS", "PostgreSQL", "Prisma"],
+    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=1200&auto=format&fit=crop",
+    link: "#",
+    reversed: false
+  }
+];
+
 export default function Home() {
 
   useEffect(() => {
@@ -118,55 +177,107 @@ export default function Home() {
         );
 
         // Skills section stagger
-        gsap.fromTo('.section-title',
-          { opacity: 0, y: 30 },
+        gsap.fromTo('.skill-category-title',
+          { opacity: 0, x: -20 },
           {
             opacity: 1,
-            y: 0,
-            duration: 1,
+            x: 0,
+            duration: 0.8,
+            stagger: 0.2,
             ease: 'power3.out',
             scrollTrigger: getScrollTrigger('#skills')
           }
         );
 
-        gsap.fromTo('.skill-tag',
+        gsap.fromTo('.skill-card',
           {
             opacity: 0,
-            y: 35,
-            scale: 0.85
+            y: 30,
+            scale: 0.9
           },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.7,
-            stagger: 0.06,
+            duration: 0.6,
+            stagger: 0.05,
             ease: 'power2.out',
-            scrollTrigger: getScrollTrigger('.skills-grid')
+            scrollTrigger: getScrollTrigger('#skills')
           }
         );
 
-        // Selected Work alternating slide-in
-        const projectCards = document.querySelectorAll('.project-card');
-        projectCards.forEach(card => {
-          const isLeft = card.classList.contains('animate-left');
+        // Selected Work Pinned Scroll Animation (Desktop Only)
+        const showcase = document.querySelector('.projects-showcase');
+        const projectRows = gsap.utils.toArray('.project-row') as HTMLElement[];
 
-          gsap.fromTo(card,
-            {
-              opacity: 0,
-              x: isLeft ? -80 : 80,
-              y: 40
-            },
-            {
-              opacity: 1,
-              x: 0,
-              y: 0,
-              duration: 1.1,
-              ease: 'power3.out',
-              scrollTrigger: getScrollTrigger(card)
-            }
-          );
-        });
+        if (showcase && projectRows.length > 0) {
+          const mm = gsap.matchMedia();
+
+          mm.add("(min-width: 901px)", () => {
+            const pinTl = gsap.timeline({
+              scrollTrigger: {
+                trigger: '#projects',
+                pin: true,
+                scrub: 1,
+                start: 'top top',
+                end: () => '+=' + (window.innerHeight * projectRows.length),
+              }
+            });
+
+            projectRows.forEach((row, i) => {
+              const isReversed = row.classList.contains('reversed');
+              const visual = row.querySelector('.project-visual');
+              const content = row.querySelector('.project-content');
+              
+              // Set initial state for all rows
+              gsap.set(row, { opacity: 0, visibility: 'hidden', pointerEvents: 'none' });
+              
+              if (i === 0) {
+                // First row is visible immediately
+                gsap.set(row, { opacity: 1, visibility: 'visible', pointerEvents: 'auto' });
+                gsap.set(visual, { opacity: 1, scale: 1, y: 0 });
+                gsap.set(content, { opacity: 1, x: 0 });
+              } else {
+                // Animate IN subsequent rows
+                pinTl.to(row, { autoAlpha: 1, pointerEvents: 'auto', duration: 0.1 }, "+=0.2");
+                pinTl.fromTo(visual, 
+                  { opacity: 0, scale: 0.9, y: 80 }, 
+                  { opacity: 1, scale: 1, y: 0, duration: 1, ease: 'power2.out' }, 
+                  "<"
+                );
+                pinTl.fromTo(content, 
+                  { opacity: 0, x: isReversed ? -80 : 80 }, 
+                  { opacity: 1, x: 0, duration: 1, ease: 'power2.out' }, 
+                  "<0.2"
+                );
+              }
+
+              // Animate OUT all rows except the last one
+              if (i !== projectRows.length - 1) {
+                pinTl.to(visual, { opacity: 0, scale: 0.95, y: -40, duration: 0.8, ease: 'power2.in' }, "+=1");
+                pinTl.to(content, { opacity: 0, y: -20, duration: 0.8, ease: 'power2.in' }, "<");
+                pinTl.set(row, { pointerEvents: 'none', visibility: 'hidden' });
+              }
+            });
+            
+            return () => {
+              gsap.set(projectRows, { clearProps: "all" });
+            };
+          });
+
+          // Mobile Standard Scroll
+          mm.add("(max-width: 900px)", () => {
+            projectRows.forEach(row => {
+              gsap.fromTo(row,
+                { opacity: 0, y: 40 },
+                { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: getScrollTrigger(row) }
+              );
+            });
+            return () => {
+              gsap.set(projectRows, { clearProps: "all" });
+            };
+          });
+        }
 
         // Connect Section
         gsap.fromTo('.connect-section .section-title, .connect-text',
@@ -324,17 +435,24 @@ export default function Home() {
           <section id="skills" className="skills-section">
             <div className="section-container">
               <h2 className="section-title">What I Work With</h2>
-              <div className="skills-grid" id="skills-grid">
-                <span className="skill-tag">HTML</span>
-                <span className="skill-tag">CSS</span>
-                <span className="skill-tag">JavaScript</span>
-                <span className="skill-tag">React.js</span>
-                <span className="skill-tag">Next.js</span>
-                <span className="skill-tag">Node.js</span>
-                <span className="skill-tag">Tailwind CSS</span>
-                <span className="skill-tag">Git</span>
-                <span className="skill-tag">Figma</span>
-                <span className="skill-tag">WordPress</span>
+              <div className="skills-container-new">
+                {skillsData.map((category, idx) => (
+                  <div key={idx} className="skill-category">
+                    <h3 className="skill-category-title">{category.category}</h3>
+                    <div className="skills-grid-new">
+                      {category.items.map((skill, i) => (
+                        <div 
+                          key={i} 
+                          className="skill-card"
+                          style={{ '--hover-color': skill.color } as React.CSSProperties}
+                        >
+                          <img src={skill.icon} alt={skill.name} className="skill-icon" loading="lazy" />
+                          <span className="skill-name">{skill.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
@@ -343,54 +461,25 @@ export default function Home() {
           <section id="projects" className="projects-section">
             <div className="section-container">
               <h2 className="section-title">Selected Work</h2>
-              <div className="projects-grid" id="projects-grid">
-                {/* Project 1 */}
-                <article className="project-card animate-left">
-                  <div className="project-info">
-                    <span className="project-num">01 /</span>
-                    <h3 className="project-name">Portfolio Website</h3>
-                    <p className="project-desc">Personal portfolio built with Next.js and Tailwind CSS.</p>
-                    <div className="project-stack">
-                      <span className="stack-tag">Next.js</span>
-                      <span className="stack-tag">Tailwind</span>
+              <div className="projects-showcase">
+                {projectsData.map((project, index) => (
+                  <article key={index} className={`project-row ${project.reversed ? 'reversed' : ''}`}>
+                    <div className="project-visual">
+                      <img src={project.image} alt={project.title} loading="lazy" />
                     </div>
-                  </div>
-                  <a href="#" className="project-link">
-                    View Project <span className="arrow">→</span>
-                  </a>
-                </article>
-
-                {/* Project 2 */}
-                <article className="project-card animate-right">
-                  <div className="project-info">
-                    <span className="project-num">02 /</span>
-                    <h3 className="project-name">E-Commerce UI</h3>
-                    <p className="project-desc">A clean shopping frontend with cart and product filtering.</p>
-                    <div className="project-stack">
-                      <span className="project-stack">React</span>
-                      <span className="stack-tag">CSS</span>
+                    <div className="project-content">
+                      <span className="project-num">0{index + 1} /</span>
+                      <h3 className="project-name">{project.title}</h3>
+                      <p className="project-desc">{project.description}</p>
+                      <div className="project-stack">
+                        {project.stack.map((tech, i) => (
+                          <span key={i} className="stack-tag">{tech}</span>
+                        ))}
+                      </div>
+                      <a href={project.link} className="btn btn-outline">View Project</a>
                     </div>
-                  </div>
-                  <a href="#" className="project-link">
-                    View Project <span className="arrow">→</span>
-                  </a>
-                </article>
-
-                {/* Project 3 */}
-                <article className="project-card animate-left">
-                  <div className="project-info">
-                    <span className="project-num">03 /</span>
-                    <h3 className="project-name">Blog Platform</h3>
-                    <p className="project-desc">Minimal blog with markdown support and dark mode.</p>
-                    <div className="project-stack">
-                      <span className="stack-tag">Next.js</span>
-                      <span className="stack-tag">MDX</span>
-                    </div>
-                  </div>
-                  <a href="#" className="project-link">
-                    View Project <span className="arrow">→</span>
-                  </a>
-                </article>
+                  </article>
+                ))}
               </div>
             </div>
           </section>
@@ -402,13 +491,13 @@ export default function Home() {
               <p className="connect-text">I'm open to internships, freelance projects, and collaborations.</p>
 
               <div className="connect-links" id="connect-links">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="connect-row">
+                <a href="https://github.com/khadijamansoor" target="_blank" rel="noopener noreferrer" className="connect-row">
                   <svg className="connect-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                   </svg>
                   <span className="connect-label">GitHub</span>
                 </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="connect-row">
+                <a href="https://www.linkedin.com/in/khadija-mansoor-dev" target="_blank" rel="noopener noreferrer" className="connect-row">
                   <svg className="connect-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                     <rect x="2" y="9" width="4" height="12" />
@@ -416,12 +505,12 @@ export default function Home() {
                   </svg>
                   <span className="connect-label">LinkedIn</span>
                 </a>
-                <a href="mailto:khadija@example.com" className="connect-row">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=khadijamansoor47@gmail.com" target="_blank" rel="noopener noreferrer" className="connect-row">
                   <svg className="connect-icon" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                     <polyline points="22,6 12,13 2,6" />
                   </svg>
-                  <span className="connect-label">Email</span>
+                  <span className="connect-label">khadijamansoor47@gmail.com</span>
                 </a>
               </div>
             </div>
