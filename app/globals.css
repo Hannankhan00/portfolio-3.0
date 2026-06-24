@@ -506,7 +506,7 @@ body > div:first-child {
 
 /* Right column — card */
 .about-card {
-  width: 280px;
+  width: 380px;
   flex-shrink: 0;
 }
 
@@ -806,7 +806,8 @@ body > div:first-child {
   .nav-logo {
     position: absolute;
     top: -42px;
-    left: 60px; /* Aligned right next to the hamburger button */
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .nav-links {
