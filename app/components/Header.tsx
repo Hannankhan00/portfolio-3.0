@@ -91,7 +91,7 @@ export default function Header() {
             tabIndex={isOpen ? 0 : -1}
             onClick={() => setOpen(false)}
           >
-            Hire me
+            Let's Talk
           </a>
         </nav>
       </div>

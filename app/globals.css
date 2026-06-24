@@ -776,6 +776,33 @@ body > div:first-child {
   max-width: 90%;
 }
 
+.project-highlights {
+  list-style: none;
+  margin: 0 0 2.5rem 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 90%;
+}
+
+.project-highlights li {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.5;
+}
+
+.project-highlights li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: #c084fc;
+  font-size: 0.8rem;
+  top: 0.15rem;
+}
+
 .project-stack {
   display: flex;
   flex-wrap: wrap;
@@ -848,22 +875,27 @@ body > div:first-child {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  max-width: 400px;
+  /* Removed max-width: 400px to allow long emails to fit on desktop */
 }
 
 .connect-row {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
   text-decoration: none;
   color: var(--color-text-main);
   font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.1rem, 4vw, 2rem);
   font-weight: 500;
   padding: 0.5rem 0;
   position: relative;
   width: fit-content;
+  max-width: 100%;
   transition: color var(--transition-smooth);
+}
+
+.connect-label {
+  line-height: 1.2;
 }
 
 .connect-row::after {
@@ -913,16 +945,18 @@ body > div:first-child {
 }
 
 .footer-content {
-  padding: 4rem 2rem;
+  padding: 1.5rem 2rem;
   display: flex;
   justify-content: center;
   text-align: center;
 }
 
 .copyright {
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--color-text-muted);
   font-family: var(--font-sans);
+  font-weight: 300;
+  letter-spacing: 0.05em;
 }
 
 /* --- RESPONSIVE ADJUSTMENTS --- */
@@ -968,6 +1002,10 @@ body > div:first-child {
     padding: 4.5rem 1.5rem;
   }
   
+  .footer-content.section-container {
+    padding: 1.5rem;
+  }
+  
   .project-card {
     padding: 1.5rem;
     min-height: 280px;
@@ -977,6 +1015,10 @@ body > div:first-child {
     display: flex;
     justify-content: center;
     width: 100%;
+  }
+
+  .connect-label {
+    word-break: break-all;
   }
 }
 

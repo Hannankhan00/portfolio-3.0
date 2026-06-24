@@ -40,29 +40,39 @@ const skillsData = [
   }
 ];
 
-const projectsData = [
+type Project = {
+  title: string;
+  description: string;
+  stack: string[];
+  image: string;
+  link: string;
+  reversed: boolean;
+  highlights?: string[];
+};
+
+const projectsData: Project[] = [
   {
-    title: "Portfolio Website",
-    description: "A highly interactive personal portfolio built with Next.js, featuring smooth GSAP animations, WebGL background effects, and a custom glassmorphism design system.",
-    stack: ["Next.js", "React", "GSAP", "Tailwind CSS"],
-    image: "https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=1200&auto=format&fit=crop",
-    link: "#",
+    title: "SkillSpill",
+    description: "A CV-less hiring platform where recruiters discover and hire talent based on verified skills. Features an AI matching engine with NLP embeddings and LLM-driven GitHub code-quality analysis.",
+    stack: ["Next.js", "TypeScript", "MySQL", "Python", "Groq API"],
+    image: "/assets/skillspill.png",
+    link: "https://skillspill.app",
     reversed: false
   },
   {
-    title: "E-Commerce Platform",
-    description: "A modern, high-performance shopping frontend. Features dynamic cart management, advanced product filtering, and a seamless checkout experience with Framer Motion transitions.",
-    stack: ["TypeScript", "React", "Node.js", "MongoDB"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
-    link: "#",
+    title: "Devshift",
+    description: "A creative playground built to express frontend design concepts. It features unique layouts and smooth animations that reflect my personal design philosophy.",
+    stack: ["Next.js", "Node.js", "Framer Motion"],
+    image: "/assets/devshift.png",
+    link: "https://devshift.vercel.app",
     reversed: true
   },
   {
-    title: "SaaS Dashboard UI",
-    description: "An elegant dark-themed analytics dashboard designed for SaaS products. Includes real-time data visualization, custom interactive charts, and secure user authentication.",
-    stack: ["Next.js", "Tailwind CSS", "PostgreSQL", "Prisma"],
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=1200&auto=format&fit=crop",
-    link: "#",
+    title: "Corpulate",
+    description: "A comprehensive platform for company registration. It features a role-based dashboard, integrated Stripe payments, and seamless client management and onboarding systems. (Currently under development)",
+    stack: ["Next.js", "Node.js", "PostgreSQL"],
+    image: "/assets/corpulate.png",
+    link: "https://corpulate-kappa.vercel.app/",
     reversed: false
   }
 ];
@@ -476,7 +486,7 @@ export default function Home() {
                           <span key={i} className="stack-tag">{tech}</span>
                         ))}
                       </div>
-                      <a href={project.link} className="btn btn-outline">View Project</a>
+                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="btn btn-outline">View Project</a>
                     </div>
                   </article>
                 ))}
@@ -519,7 +529,7 @@ export default function Home() {
 
         <footer className="footer">
           <div className="section-container footer-content">
-            <p className="copyright">© 2025 Khadija Mansoor · Designed with care</p>
+            <p className="copyright">© 2026 Khadija Mansoor · Designed with love</p>
           </div>
         </footer>
       </div>
