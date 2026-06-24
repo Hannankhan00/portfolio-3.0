@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -65,7 +66,7 @@ export default function Header() {
             tabIndex={isOpen ? 0 : -1}
             onClick={() => setOpen(false)}
           >
-            KM.
+            <Image src="/assets/icon.png" alt="KM Logo" width={32} height={32} className="object-contain" />
           </a>
           <ul className="nav-links">
             <li>
